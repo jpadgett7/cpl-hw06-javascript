@@ -39,43 +39,43 @@
   // Data Retrieval Function (Fires Every Half-Second)
   (function findMeowth() {
     $.getJSON(trackerURL + '/position.json', function(locData) {
-      transport.innerHTML = locData['Transport'];
-      progbar.innerHTML = Math.round(locData['Progress']*10000)/100 + '%';
-      progbar.style.width = Math.round(locData['Progress']*10000)/100 + '%';
-      meowthMarker.setLatLng([locData['Lat'], locData['Long']]);
+      transport.innerHTML = locData.Transport;
+      progbar.innerHTML = Math.round(locData.Progress * 10000) / 100 + '%';
+      progbar.style.width = Math.round(locData.Progress * 10000) / 100 + '%';
+      meowthMarker.setLatLng([locData.Lat, locData.Long]);
     });
     $.getJSON(trackerURL + '/target.json', function(data) {
-      targetMarker.setLatLng([data['Lat'], data['Long']]);
+      targetMarker.setLatLng([data.Lat, data.Long]);
     });
-    setTimeout(function () {
+    setTimeout(function() {
       findMeowth();
     }, refreshTime);
   })();
 
   // Event Handler: Zoom to Meowth
   zoomM.addEventListener('click', function(e) {
-    if (e) e.preventDefault();
+    e.preventDefault();
     follow.checked = false;
     map.flyTo(meowthMarker.getLatLng(), 16);
   });
   // Event Handler: Zoom to Target
   zoomT.addEventListener('click', function(e) {
-    if (e) e.preventDefault();
+    e.preventDefault();
     follow.checked = false;
     map.flyTo(targetMarker.getLatLng(), 16);
   });
   // Event Handler: Zoom Out
   zoomO.addEventListener('click', function(e) {
-    if (e) e.preventDefault();
+    e.preventDefault();
     follow.checked = false;
     map.flyTo(rollaCenter, 10);
   });
   // Event Handler: Follow Meowth
   follow.addEventListener('change', function followMe(e) {
-    if (e) e.preventDefault();
+    e.preventDefault();
     if (follow.checked) {
       map.panTo(meowthMarker.getLatLng());
-      setTimeout(function () {
+      setTimeout(function() {
         followMe(e);
       }, refreshTime);
     }
